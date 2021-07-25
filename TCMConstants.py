@@ -125,6 +125,7 @@ FILENAME_TIMESTAMP_FORMAT = '%Y-%m-%d_%H-%M-%S'
 FILENAME_REGEX  = '(\d{4}(-\d\d){2}_(\d\d-){3})(right_repeater|front|left_repeater|back).mp4'
 FILENAME_PATTERN = re.compile(FILENAME_REGEX)
 EVENT_JSON = 'event.json'
+THUMB_PNG = 'thumb.png'
 
 ### Characteristics of event.json files output by TeslaCam
 EVENT_DURATION = 600		# Maximum duration in seconds between the timestamp in event.json and the timestamp in the filename
