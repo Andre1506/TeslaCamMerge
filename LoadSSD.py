@@ -65,6 +65,8 @@ def move_file(file, folder, name):
 				with open(file, 'r') as jsonfile:
 					event = json.load(jsonfile)
 					destination += "/" + event["timestamp"].replace('T', '_').replace(':', '-') + '-' + name
+			if (name == TCMConstants.THUMB_PNG):
+                                destination += "/" + file[-29:].replace('/', '-')
 			try:
 				shutil.move(file, destination)
 				logger.debug(f"Moved file {file} into {folder}")
@@ -74,7 +76,7 @@ def move_file(file, folder, name):
 			logger.debug(f"File {file} still being written, skipping for now")
 
 def file_has_proper_name(file):
-	if (file == TCMConstants.EVENT_JSON) or TCMConstants.FILENAME_PATTERN.match(file):
+	if (file == TCMConstants.EVENT_JSON) or (file == TCMConstants.THUMB_PNG) or TCMConstants.FILENAME_PATTERN.match(file):
 		return True
 	else:
 		return False
