@@ -98,7 +98,7 @@ If you don't like `vim` as the text editor, install `nano` with `sudo apt instal
 4. `sudo apt install curl ffmpeg samba lsof cutycapt git xvfb`
 5. `git clone https://github.com/Andre1506/TeslaCamMerge`
 
-**C Move Root to USB
+**C Move Root to USB**
 1. `cd ~`
 2. `TeslaCamMerge/copyRootToUSB.sh -p /dev/sda1`
 3. `TeslaCamMerge/partUUID.sh` (The return includes the PARTUUID of your USB SSD used later than <USBSSDPARTUUID>
