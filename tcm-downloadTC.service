@@ -7,7 +7,7 @@ After=mergeTeslaCam.service
 [Service]
 User=PROJECT_USER
 ExecStartPre=/bin/sleep 60
-ExecStart=PROJECT_PATH/TeslaCamMerge/DownloadTC.py
+ExecStart=/usr/bin/python3.9 PROJECT_PATH/TeslaCamMerge/DownloadTC.py
 Restart=on-failure
 RestartSec=60
 
