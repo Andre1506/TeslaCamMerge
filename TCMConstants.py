@@ -49,6 +49,11 @@ CAR_LIST = ['MSM', 'PW']
 # match the order of CAR_LIST above.
 SHARE_PATHS = ['/samba/fjnuser/', '/samba/fjnuser2/']
 
+Use_Trigger_File= False
+Trigger_Name = 'ARCHIVE_UPLOADED'
+TRIGGER_FREQUENCY = [10]
+TRIGGER_MINUTE = 0
+
 # rclone configuration entry for Google Drive. UPLOAD_REMOTE_PATH
 # should be a properly-configured entry in your rclone.conf file.
 # Any subdirectory must already exist on Google Drive.
