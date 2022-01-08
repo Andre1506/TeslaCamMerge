@@ -25,17 +25,24 @@ def main():
 
 	while True:
 		for index, share in enumerate(TCMConstants.SHARE_PATHS):
-			for folder in TCMConstants.FOOTAGE_FOLDERS:
-				for root, dirs, files in os.walk(f"{share}{folder}", topdown=False):
-					for name in files:
-						if file_has_proper_name(name):
-							sub_path = folder
-							if TCMConstants.MULTI_CAR:
-								sub_path = f"{TCMConstants.CAR_LIST[index]}/{folder}"
-							move_file(os.path.join(root, name), sub_path, name)
-						else:
-							logger.warn(f"File '{name}' has invalid name, skipping")
-
+			if not TCMConstants.Use_Trigger_File or os.path.exists(f"{share}{TCMConstants.Trigger_Name}"):
+				for folder in TCMConstants.FOOTAGE_FOLDERS:
+					for root, dirs, files in os.walk(f"{share}{folder}", topdown=False):
+						for name in files:
+							if file_has_proper_name(name):
+								sub_path = folder
+								if TCMConstants.MULTI_CAR:
+									sub_path = f"{TCMConstants.CAR_LIST[index]}/{folder}"
+								move_file(os.path.join(root, name), sub_path, name)
+							else:
+								logger.warn(f"File '{name}' has invalid name, skipping")
+				if TCMConstants.Use_Trigger_File: 
+					os.remove(f"{share}{TCMConstants.Trigger_Name}")
+					if TCMConstants.MULTI_CAR:
+						open(f"{TCMConstants.FOOTAGE_PATH}/{TCMConstants.CAR_LIST[index]}/{TCMConstants.Trigger_Name}",'w')
+					else:
+						open(f"{TCMConstants.FOOTAGE_PATH}/{TCMConstants.Trigger_Name}",'w')
+					
 		time.sleep(TCMConstants.SLEEP_DURATION)
 
 ### Startup functions ###

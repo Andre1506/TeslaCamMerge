@@ -35,9 +35,15 @@ def main():
 		logger.debug("Starting new iteration")
 		if TCMConstants.MULTI_CAR:
 			for car in TCMConstants.CAR_LIST:
-				loop_car(f"{car}/")
+				if not TCMConstants.Use_Trigger_File or os.path.exists(f"{TCMConstants.FOOTAGE_PATH}{car}/{TCMConstants.Trigger_Name}"):
+					loop_car(f"{car}/")
+					if TCMConstants.Use_Trigger_File: 
+						os.remove(f"{TCMConstants.FOOTAGE_PATH}{car}/{TCMConstants.Trigger_Name}")					
 		else:
-			loop_car("")
+			if not TCMConstants.Use_Trigger_File or os.path.exists(f"{TCMConstants.FOOTAGE_PATH}{TCMConstants.Trigger_Name}"):
+				loop_car("")
+				if TCMConstants.Use_Trigger_File: 
+					os.remove(f"{TCMConstants.FOOTAGE_PATH}{TCMConstants.Trigger_Name}")					
 
 		time.sleep(TCMConstants.SLEEP_DURATION)
 

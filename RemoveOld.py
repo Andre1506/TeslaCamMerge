@@ -20,6 +20,8 @@ ALL_VIDEO_REGEX = f"{TCMConstants.FILENAME_REGEX[:-5]}|fast|full).mp4"
 ALL_VIDEO_PATTERN = re.compile(ALL_VIDEO_REGEX)
 EVENTFILE_REGEX  = '(\d{4}(-\d\d){2}_(\d\d-){3})event.json'
 EVENTFILE_PATTERN = re.compile(EVENTFILE_REGEX)
+THUMBFILE_REGEX  = '(\d{4}(-\d\d){2}_(\d\d-){3})thumb.png'
+THUMBFILE_PATTERN = re.compile(THUMBFILE_REGEX)
 
 logger = TCMConstants.get_logger()
 
@@ -35,20 +37,17 @@ def main():
 		setup_video_paths("")
 
 	while True:
-		for share in TCMConstants.SHARE_PATHS:
-			for folder in TCMConstants.FOOTAGE_FOLDERS:
-				for directory in next(os.walk(f"{share}{folder}"))[1]:
-					if os.listdir(f"{share}{folder}/{directory}"):
-						logger.debug(f"Directory {share}{folder}/{directory} not empty, skipping")
-					else:
-						remove_empty_old_directory(f"{share}{folder}/", directory)
-
-		for path in VIDEO_PATHS:
-			for file in os.listdir(path):
-				remove_old_file(path, file)
+		if TCMConstants.Use_Trigger_File: 
+			if datetime.datetime.now().hour in TCMConstants.TRIGGER_FREQUENCY and datetime.datetime.now().minute == TCMConstants.TRIGGER_MINUTE:
+				remove_worker()
+				for share in TCMConstants.SHARE_PATHS:
+					open(f"{share}/{TCMConstants.Trigger_Name}",'w')
+		else:
+			remove_worker()	
 
 		if datetime.datetime.now().minute in TCMConstants.STATS_FREQUENCY:
 			Stats.generate_stats_image()
+
 
 		time.sleep(TCMConstants.SLEEP_DURATION)
 
@@ -70,6 +69,19 @@ def have_required_permissions():
 	return have_perms
 
 ### Loop functions ###
+
+def remove_worker():
+	for share in TCMConstants.SHARE_PATHS:
+		for folder in TCMConstants.FOOTAGE_FOLDERS:
+			for directory in next(os.walk(f"{share}{folder}"))[1]:
+				if os.listdir(f"{share}{folder}/{directory}"):
+					logger.debug(f"Directory {share}{folder}/{directory} not empty, skipping")
+				else:
+					remove_empty_old_directory(f"{share}{folder}/", directory)
+
+	for path in VIDEO_PATHS:
+		for file in os.listdir(path):
+			remove_old_file(path, file)
 
 def remove_empty_old_directory(path, name):
 	if is_old_enough(name):
@@ -95,12 +107,16 @@ def remove_old_file(path, file):
 def extract_stamp(file):
 	match_video = ALL_VIDEO_PATTERN.match(file)
 	match_event = EVENTFILE_PATTERN.match(file)
+	match_thumb = THUMBFILE_PATTERN.match(file)
 	if match_video:
 		logger.debug("Returning stamp {0} for file {1}".format(match_video.group(1)[:-1], file))
 		return match_video.group(1)[:-1]
 	elif match_event:
 		logger.debug("Returning stamp {0} for file {1}".format(match_event.group(1)[:-1], file))
 		return match_event.group(1)[:-1]
+	elif match_thumb:
+		logger.debug("Returning stamp {0} for file {1}".format(match_thumb.group(1)[:-1], file))
+		return match_thumb.group(1)[:-1]
 	else:
 		logger.debug(f"No valid stamp found for file: {file}")
 		return None
