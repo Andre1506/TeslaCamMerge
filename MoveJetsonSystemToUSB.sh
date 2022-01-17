@@ -18,6 +18,8 @@ if [ "$confirm" = "y" ]; then
   PARTUUID_STRING=$(sudo blkid -o value -s PARTUUID "/dev/"$1"1")
   BOOT_ORG='root=/dev/mmcblk0p1'
   BOOT_NEW='root=PARTUUID='$PARTUUID_STRING
+  echo "Edit /boot/extlinux/extlinux.conf to boot from "$1"1"
   sudo sed -i "s!$BOOT_ORG!$BOOT_NEW!" /boot/extlinux/extlinux.conf
+  echo "Done Rebooting..."
   sudo reboot
 fi
