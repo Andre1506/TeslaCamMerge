@@ -10,10 +10,14 @@ echo "******************************************************"
 printf "Are you sure?[y,n]:"
 	read confirm
 if [ "$confirm" = "y" ]; then
+  echo "Create new partition layout on" $1
   sudo parted -s /dev/$1 "mklabel gpt"
   sudo parted -s /dev/$1 "mkpart primary ext4 1M -1"
+  echo "Formarting "$1"1"
   echo "y" | sudo mkfs -t ext4 "/dev/"$1"1"
+  echo Mouting "$1"1"
   sudo mount -t ext4 "/dev/"$1"1" /mnt/
+  echo "Sync Root to $1"1"
   sudo rsync -axHAWX --numeric-ids --info=progress2 --exclude=/proc / /mnt/
   PARTUUID_STRING=$(sudo blkid -o value -s PARTUUID "/dev/"$1"1")
   BOOT_ORG='root=/dev/mmcblk0p1'
