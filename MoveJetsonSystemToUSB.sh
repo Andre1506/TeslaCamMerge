@@ -15,7 +15,7 @@ if [ "$confirm" = "y" ]; then
   sudo parted -s /dev/$1 "mkpart primary ext4 1M -1"
   echo "Formarting "$1"1"
   echo "y" | sudo mkfs -t ext4 "/dev/"$1"1"
-  echo Mouting "$1"1"
+  echo "Mouting "$1"1"
   sudo mount -t ext4 "/dev/"$1"1" /mnt/
   echo "Sync Root to $1"1"
   sudo rsync -axHAWX --numeric-ids --info=progress2 --exclude=/proc / /mnt/
