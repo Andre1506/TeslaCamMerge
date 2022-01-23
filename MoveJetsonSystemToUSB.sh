@@ -17,7 +17,7 @@ if [ "$confirm" = "y" ]; then
   echo "y" | sudo mkfs -t ext4 "/dev/"$1"1"
   echo "Mouting "$1"1"
   sudo mount -t ext4 "/dev/"$1"1" /mnt/
-  echo "Sync Root to $1"1"
+  echo "Sync Root to "$1"1"
   sudo rsync -axHAWX --numeric-ids --info=progress2 --exclude=/proc / /mnt/
   PARTUUID_STRING=$(sudo blkid -o value -s PARTUUID "/dev/"$1"1")
   BOOT_ORG='root=/dev/mmcblk0p1'
