@@ -36,13 +36,19 @@ def main():
 		if TCMConstants.MULTI_CAR:
 			for car in TCMConstants.CAR_LIST:
 				if not TCMConstants.Use_Trigger_File or os.path.exists(f"{TCMConstants.FOOTAGE_PATH}{car}/{TCMConstants.Trigger_Name}"):
+					if TCMConstants.Use_Trigger_File:
+						logger.info(f"Trigger file found for {car}! Execute Merging")
 					loop_car(f"{car}/")
-					if TCMConstants.Use_Trigger_File: 
+					if TCMConstants.Use_Trigger_File:
+						logger.info(f"Merging for {car} Completet! Removing Trigger")
 						os.remove(f"{TCMConstants.FOOTAGE_PATH}{car}/{TCMConstants.Trigger_Name}")					
 		else:
 			if not TCMConstants.Use_Trigger_File or os.path.exists(f"{TCMConstants.FOOTAGE_PATH}{TCMConstants.Trigger_Name}"):
+				if TCMConstants.Use_Trigger_File:
+					logger.info(f"Trigger file found! Execute Merging")
 				loop_car("")
-				if TCMConstants.Use_Trigger_File: 
+				if TCMConstants.Use_Trigger_File:
+					logger.info(f"Merging Completet! Removing Trigger")
 					os.remove(f"{TCMConstants.FOOTAGE_PATH}{TCMConstants.Trigger_Name}")					
 
 		time.sleep(TCMConstants.SLEEP_DURATION)

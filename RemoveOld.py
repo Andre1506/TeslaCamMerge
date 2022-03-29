@@ -39,9 +39,12 @@ def main():
 	while True:
 		if TCMConstants.Use_Trigger_File: 
 			if datetime.datetime.now().hour in TCMConstants.TRIGGER_FREQUENCY and datetime.datetime.now().minute == TCMConstants.TRIGGER_MINUTE:
+				logger.info("It's time to do the cycle")
 				remove_worker()
+				logger.info("Generating Trigger to execute a cycle with LoadSSD and MergeTeslaCam")
 				for share in TCMConstants.SHARE_PATHS:
 					open(f"{share}/{TCMConstants.Trigger_Name}",'w')
+				
 		else:
 			remove_worker()	
 
