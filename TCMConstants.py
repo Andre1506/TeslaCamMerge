@@ -39,15 +39,15 @@ FOOTAGE_PATH = '/home/pavan/Footage/'
 # like '/home/user/Footage/Car1/' and '/home/user/Footage/Car2/' as the paths
 # for the footage from each car. Then CAR_LIST should be ['Car1', 'Car2'].
 # The order of cars here should match the order of SHARE_PATHS below.
-MULTI_CAR = True
-CAR_LIST = ['MSM', 'PW']
+MULTI_CAR = False
+CAR_LIST = ['MSM']
 
 # Locations of CIFS shares. All paths MUST include trailing /. PROJECT_USER
 # must have read-write permissions to all paths. List MUST contain at least one
 # path. If you have more than one Tesla, set up one CIFS share location for
 # each car, and add all of them to this list. The order of paths here should
 # match the order of CAR_LIST above.
-SHARE_PATHS = ['/samba/fjnuser/', '/samba/fjnuser2/']
+SHARE_PATHS = ['/samba/fjnuser/']
 
 # rclone configuration entry for Google Drive. UPLOAD_REMOTE_PATH
 # should be a properly-configured entry in your rclone.conf file.
@@ -129,13 +129,24 @@ THUMB_PNG = 'thumb.png'
 
 ### Characteristics of event.json files output by TeslaCam
 EVENT_DURATION = 600		# Maximum duration in seconds between the timestamp in event.json and the timestamp in the filename
-EVENT_REASON = {'sentry_aware_object_detection' : 'Sentry triggered',
+EVENT_REASON = {'sentry_aware_object_detection' : 'Sentry object detected',
+	'sentry_aware_accel_' : 'Sentry detected aceeleration',
+	'sentry_' : 'Sentry triggered',
 	'user_interaction_honk' : 'Honked',
-	'user_interaction_dashcam_panel_save' : 'Saved',
-	'user_interaction_dashcam_icon_tapped' : 'Saved from viewer'}
+	'user_interaction_dashcam_panel_save' : 'Saved from panel',
+	'user_interaction_dashcam_icon_tapped' : 'Saved from icon',
+	'user_interaction_dashcam_launcher_action_tapped' : 'Saved from launcher',
+	'user_interaction_' : 'User interaction'}
+
 EVENT_CAMERA = {'0' : 'front camera',
-	'3' : 'left camera',
-	'4' : 'right camera'}
+	'1' : 'fisheye camera',
+	'2' : 'narrow camera',
+	'3' : 'left front camera',
+	'4' : 'right front camera',
+	'5' : 'left rear camera',
+	'6' : 'right rear camera',
+	'7' : 'rear camera',
+	'8' : 'cabin camera'}
 
 # Application management constants
 SLEEP_DURATION = 60		# Seconds between looping in main tasks
